@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+     rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+     crossorigin="anonymous">
+    <title>Forum</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="container">
+        {% block content %}
+            <h1>Forum</h1>
+            <a href="{% url 'create_post'  %}" class="btn btn-primary">Create New Post</a>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Title</th>
+                        <th scope="col">Description</th>
+                        <th scope="col">Created at</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if object_list  %}
+                        {% for post in object_list %}
+                        <tr>
+                            <td><a href="{% url 'detail_post' post.pk %}"> {{post.title}} </a></td>
+                            <td>{{ post.description }}</td>
+                            <th scope="row">{{ post.created_at }}</th>
+                            <td><a href="{% url 'update_post' post.pk %}" class="btn btn-primary">Edit</a></td>
+                            <td><a href="{% url 'delete_post' post.pk %}" class="btn btn-danger">Delete</a></td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}  
+                        <p>No posts</p>
+                    {% endif %}    
+                </tbody>
+            </table>
+        {% endblock %}
+    </div>    
+</body> 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+   integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+   crossorigin="anonymous">
+</script>
+</html>
