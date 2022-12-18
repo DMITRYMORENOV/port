@@ -14,7 +14,26 @@
     <div class="container">
         {% block content %}
             <h1>Forum</h1>
+
+            {% if messages %}
+                {% for message in messages %}
+                    {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                        <div class="alert alert-danger" role="alert">
+                           {{ message }}
+                        </div>
+                    {% else %}   
+                        <div class="alert alert-{{ message.tags }}" role="alert">
+                            {{ message }}
+                        </div>
+                    {% endif %}    
+                {% endfor %}  
+            {% endif %}  
+
+            {% if user.is_superuser or user.is_staff %}
             <a href="{% url 'create_post'  %}" class="btn btn-primary">Create New Post</a>
+            <a href="{% url 'upload'  %}" class="btn btn-secondary">Upload Files</a>
+            <a href="{% url 'download'  %}" class="btn btn-secondary">Download Posts</a>
+            {% endif %}
             <table class="table">
                 <thead>
                     <tr>

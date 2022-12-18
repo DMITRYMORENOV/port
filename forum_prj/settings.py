@@ -38,6 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'service.apps.ServiceConfig',
+    'crispy_forms',
+    'rest_framework',
+    'api.apps.ApiConfig',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
@@ -132,4 +136,70 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
+LOGIN_REDIRECT_URL = 'index'
+LOGIN_URL = 'login'
+#LOGOUT_REDIRECT_URL = 'index'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+EMAIL_HOST = "smtp.mail.ru"
+EMAIL_PORT = 2525
+EMAIL_HOST_USER = "testdjango12@mail.ru"
+EMAIL_HOST_PASSWORD = "AyXMndtBngThTkczpq3h"
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+SERVER_EMAIL = EMAIL_HOST_USER
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+#REST_FRAMEWORK = {
+   # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+   # 'PAGE_SIZE': 100
+  #  }
+
+
+
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters':{
+        'simple':{
+            'format': '[%(asctime)s] %(levelname)s %(message)s',
+            'datefmt': '%Y.%m.%d %H:%M:%S',
+        },
+    },
+    'filters': {
+        'require_debug_true':{
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+        'require_debug_false':{
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
+    'handlers':{
+        'console_prod':{
+            'class': 'logging.StreamHandler', 
+            'formatter': 'simple',
+            'filters': ['require_debug_false'],
+            'level': 'ERROR',
+        },
+        'console_debug':{
+            'class': 'logging.StreamHandler', 
+            'formatter': 'simple',
+            'filters': ['require_debug_true'],
+            'level': 'DEBUG',
+        },
+        'file':{
+            'class': 'logging.FileHandler', 
+            'filename': BASE_DIR / 'logs/forum_api.log',
+            'level': 'INFO',
+            'formatter': 'simple',        
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console_debug', 'file']
+        },
+    },    
+}
